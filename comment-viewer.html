@@ -8,6 +8,65 @@
     <script src="https://cdn.jsdelivr.net/npm/jschardet@3.0.0/dist/jschardet.min.js"></script>
 </head>
 <body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">Anleitung: Facebook-Aktivität herunterladen</h5>
+            <p class="card-text">
+                Um deine Facebook-Aktivitäten herunterzuladen, besuche
+                <a href="https://facebook.com/dyi" target="_blank">Facebook – Deine Informationen herunterladen</a>.
+            </p>
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item">
+                    Wähle <strong>"Informationen herunterladen oder übertragen"</strong>.
+                    <div class="text-center mt-2">
+                        <img src="step_1.png" class="img-fluid rounded" alt="Schritt 1">
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    Im nächsten Schritt: <strong>"Alle verfügbaren Informationen"</strong> auswählen.
+                    <div class="text-center mt-2">
+                        <img src="step_2.png" class="img-fluid rounded" alt="Schritt 2">
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    Klicke auf <strong>"Auf Gerät herunterladen"</strong>, um den Download zu starten.
+                    <div class="text-center mt-2">
+                        <img src="step_3.png" class="img-fluid rounded" alt="Schritt 3">
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    Stelle sicher, dass das Format auf <strong>"JSON"</strong> gesetzt ist.
+                    <div class="text-center mt-2">
+                        <img src="step_4.png" class="img-fluid rounded" alt="Schritt 4">
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    Klicke auf <strong>"Datei erstellen"</strong> und warte auf die Bestätigungs-E-Mail.
+                    <div class="text-center mt-2">
+                        <img src="step_5.png" class="img-fluid rounded" alt="Schritt 5">
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    Die E-Mail kann bis zu 30 Minuten auf sich warten lassen – ein bisschen Geduld bitte!
+                </li>
+            </ol>
+
+            <div class="alert alert-info mt-4" role="alert">
+                Die Datei wird als ZIP-Archiv heruntergeladen. Entpacke sie und lade anschließend die Datei<br>
+                <code>./your_facebook_activity/groups/your_comments_in_groups.json</code><br>
+                hier hoch. <strong>Keine Sorge:</strong> Die Datei bleibt sicher in deinem Browser – es erfolgt kein Upload zum Server.
+            </div>
+
+            <div class="alert alert-warning mt-4" role="alert">
+                Hinweis: Umlaute könnten in der Datei nicht korrekt dargestellt sein!
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="container mt-5">
     <h1 class="mb-4">Comment Viewer for Führungskräfte-Ausbildung</h1>
     <input type="file" id="jsonFile" class="form-control mb-3" accept=".json">
