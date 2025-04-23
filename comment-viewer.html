@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Group Comment Viewer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add jschardet for encoding detection -->
+    <script src="https://cdn.jsdelivr.net/npm/jschardet@3.0.0/dist/jschardet.min.js"></script>
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h1 class="mb-4">Comment Viewer for Führungskräfte-Ausbildung</h1>
+    <input type="file" id="jsonFile" class="form-control mb-3" accept=".json">
+    <div id="comments" class="mt-4"></div>
+</div>
+
+<script>
+    document.getElementById('jsonFile').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                // Read as binary first
+                const arrayBuffer = e.target.result;
+                const byteArray = new Uint8Array(arrayBuffer);
+
+                // Detect encoding
+                const detectedEncoding = jschardet.detect(byteArray);
+                console.log("Detected encoding:", detectedEncoding);
+
+                // Convert to string with the detected encoding
+                const decoder = new TextDecoder(detectedEncoding.encoding || "ISO-8859-1");
+                const content = decoder.decode(arrayBuffer);
+                const json = JSON.parse(content);
+
+                const commentsContainer = document.getElementById('comments');
+                commentsContainer.innerHTML = '';
+
+                if (!json.group_comments_v2) {
+                    commentsContainer.innerHTML = '<div class="alert alert-danger">Invalid JSON structure!</div>';
+                    return;
+                }
+
+                json.group_comments_v2.forEach(entry => {
+                    if (!entry.data || !Array.isArray(entry.data)) {
+                        const date = new Date(entry.timestamp * 1000).toLocaleString();
+                        const title = entry.title || '';
+                        const commentHtml = `
+                         <div class="card mb-3">
+                            <div class="card-body">
+                             <h6 class="card-subtitle">${title}</h6>
+                             <h6 class="card-subtitle text-muted">${date}</h6>
+                            </div>
+                          </div>
+                        `;
+
+                        commentsContainer.innerHTML += commentHtml;
+                        return;
+                    }
+                    entry.data.forEach(item => {
+                        const comment = item.comment;
+                        if (/^F.*Ausbildung$/.test(comment.group)) {
+                            const date = new Date(comment.timestamp * 1000).toLocaleString();
+                            const title = entry.title || '';
+
+                            const commentHtml = `
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <h5 class="card-title">${comment.author}</h5>
+                      <h6 class="card-subtitle">${title}</h6>
+                      <h6 class="card-subtitle text-muted">${date}</h6>
+                      <p class="card-text mt-2">${comment.comment.replace(/\n/g, '<br>')}</p>
+                    </div>
+                  </div>
+                `;
+                            commentsContainer.innerHTML += commentHtml;
+                        }
+                    });
+                });
+
+            } catch (err) {
+                alert('Error reading JSON: ' + err.message);
+            }
+        };
+
+        reader.readAsArrayBuffer(file)
+    });
+</script>
+</body>
+</html>
